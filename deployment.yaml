@@ -49,3 +49,6 @@ spec:
           emptyDir: {}
         - name: tmp
           emptyDir: {}
+        - name: html-volume
+          configMap:
+            name: html-configmap
