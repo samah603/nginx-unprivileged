@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx
+  namespace: nginx
+  labels: &labels
+    app: nginx
+spec:
+  replicas: 1
+  selector:
+    matchLabels: *labels
+  template:
+    metadata:
+      labels: *labels
+    spec:
+      containers:
+      - name: nginx
+        image: nginxinc/nginx-unprivileged:1.25
+        imagePullPolicy: Always
+        securityContext:
+          privileged: false
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
+          seccompProfile:
+            type: RuntimeDefault
+          capabilities:
+            drop:
+              - ALL
+        ports:
+        - containerPort: 8080
+          protocol: TCP
+        volumeMounts:
+          - name: cache-nginx
+            mountPath: /var/cache/nginx
+          - name: var-run
+            mountPath: /var/run
+          - name: tmp
+            mountPath: /tmp
+      restartPolicy: Always
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 101
+        runAsGroup: 101
+        fsGroup: 101
+      volumes:
+        - name: cache-nginx
+          emptyDir: {}
+        - name: var-run
+          emptyDir: {}
+        - name: tmp
+          emptyDir: {}
