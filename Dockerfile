@@ -19,7 +19,7 @@ COPY nginx.conf /etc/nginx/conf.d/default.conf
 RUN mkdir -p /var/cache/nginx && chown -R nginx:nginx /var/cache/nginx && \
     mkdir -p /var/log/nginx  && chown -R nginx:nginx /var/log/nginx && \
     mkdir -p /var/lib/nginx  && chown -R nginx:nginx /var/lib/nginx && \
-    touch /run/nginx.pid && chown -R nginx}:nginx} /run/nginx.pid && \
+    touch /run/nginx.pid && chown -R nginx:nginx /run/nginx.pid && \
     mkdir -p /etc/nginx/templates /etc/nginx/ssl/certs && \
     chown -R nginx:nginx /etc/nginx && \
     chmod -R 777 /etc/nginx/conf.d
